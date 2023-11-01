@@ -1,0 +1,78 @@
+#overlay {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0,0,0,0.6);
+  z-index: 2;
+  cursor: pointer;
+        /* marginRight: '-50%',
+      transform: 'translate(-50%, -50%)', */ 
+}
+
+.form {
+  position: absolute;
+  inset: 50% auto auto 50%;
+  /* border: 1px solid rgb(204, 204, 204); */
+  background: rgb(255, 255, 255);
+  overflow: auto;
+  border-radius: 4px;
+  outline: none;
+  padding: 20px;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
+
+  height: 25%;
+  width: 80%;
+  display: flex;
+  background-image: linear-gradient(#DD46F6, #7235FF);
+  border-radius: 15px;
+}
+
+.form-fields-container {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  margin: auto;
+  width: 80%;
+}
+
+.login-input-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.name-field, .email-field {
+  padding: 13px;
+  border: none;
+  border-radius: 5px;
+}
+
+textarea:focus, input:focus{
+  outline: none;
+}
+
+.login-button-container {
+  display: flex;
+  justify-content: flex-end;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.login-button, .login-cancel-button {
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border: none;
+  border-radius: 7px;
+  color: rgb(104, 103, 103);
+}
+
+.error-message {
+  color: red;
+}

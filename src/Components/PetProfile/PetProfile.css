@@ -1,0 +1,296 @@
+.pet-profile-container {
+    background-color: #0C0024;
+    /* height: 100%; */
+}
+
+.pet-profile-subcontainer {
+    padding: 5%;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+.pet-name{
+    font-family: Lobster Two;
+    font-size: 35px;
+    font-weight: 400;
+    line-height: 38px;
+    letter-spacing: 0.02em;
+    text-align: left;
+    color: #FFFFFF;
+    text-align: center;
+}
+
+.image-container {
+    display: flex;
+    justify-content: center;
+}
+
+.pet-image {
+    width: 195px;
+    height: 195px;
+    top: 179px;
+    left: 90px;
+    border-radius: 250px;
+
+}
+
+.owner-section {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.button-container {
+    width: 100%;
+}
+
+.button-subcontainer {
+    margin: auto;
+    display: flex;
+    width: 100%;
+    gap: 2%;
+}
+
+.message-button-container, .call-button-container {
+    width: 50%;
+    height: 5vh;
+    background-image: linear-gradient(#DD46F6, #7235FF);
+    color: #FFFFFF;
+    font-family: DM Sans;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 18px;
+    letter-spacing: 0em;
+    text-align: left;
+    display: flex;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+}
+
+.call-button {
+    display: flex;
+    margin: auto;
+    gap: 10px;
+}
+
+.owner-details-container {
+    background-color: #2C1F47;
+    height: 8vh;
+    display: flex;
+    border-radius: 4px;
+}
+
+.owner-details {
+    display: flex;
+    margin: 10px;
+    gap: 20px;
+    width: 100%;
+}
+
+.owner-data {
+    display: flex;
+    flex-direction: column;
+    margin-top: auto;
+    margin-bottom: auto;
+    gap: 5px;
+}
+
+.owner-name1, .owner-name2 {
+    font-family: DM Sans;
+    font-weight: 400;
+    line-height: 18px;
+    letter-spacing: 0.01em;
+    text-align: left;
+    color:#FFFFFF;
+}
+
+.owner-name1 {
+    font-size: 14px;
+}
+
+.owner-name2 {
+    opacity: 60%;
+    font-size: 12px;
+}
+
+.breed-section {
+    font-family: DM Sans;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 18px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: #FFFFFF;
+    display: flex;
+    gap: 25px;
+    width: 100%;
+
+}
+
+.line {
+    opacity: 15%;
+    color: #FFFFFF;
+}
+
+.breed-title, .colon {
+    Opacity: 70%;
+    width: 15%;
+}
+
+.colon {
+    width: 5%;
+}
+
+.breed-description {
+    width: 80%;
+}
+
+.breed-description , .breed-title, .colon{
+    font-family: DM Sans;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 18px;
+    letter-spacing: 0em;
+    text-align: left;
+
+}
+
+.note-section-title {
+    font-family: DM Sans;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 18px;
+    letter-spacing: 0.04em;
+    text-align: left;
+    color: #FFFFFF;
+}
+
+.note-description {
+    font-family: DM Sans;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 25px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: #FFFFFF;
+}
+
+.note-section {
+    border-left: ridge;
+    border-color: #EA8FFA;
+}
+
+.note {
+    margin-left: 20px;
+    margin-right: 20px;
+    line-break: anywhere;
+}
+
+.gallery-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.gallery-titles {
+    display: flex;
+    justify-content: space-between;
+}
+
+.gallery-title1 {
+    font-family: DM Sans;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 18px;
+    letter-spacing: 0.04em;
+    text-align: left;
+    color: #FFFFFF;
+
+}
+
+.gallery-title2-container {
+    font-family: DM Sans;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 16px;
+    letter-spacing: 0em;
+    text-align: right;
+    color: #EA8FFA;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    cursor: pointer;
+}
+
+.gallery-icon {
+    color: #EA8FFA;
+}
+
+/* .gallery-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+
+    gap: 16px;
+    grid-template-rows: 100px 100px;
+}
+
+.gallery-section img {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+.item1, .item3, .item4, .item5{
+    grid-row: span 1;
+}
+
+.item2{
+    grid-row: span 2; 
+} */
+
+.gallery-section {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.gallery-section1, .gallery-section2 {
+    display: flex;
+    width: 50%;
+}
+.gallery-section-colum1, .gallery-section-colum3 {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.gallery-section-column2, .gallery-section-column4 {
+    width: 100%;
+}
+
+.item1, .item2 {
+    height: 100px;
+    /* width: 100px; */
+}
+.item3 {
+    height: 200px;
+    width: 100%; 
+}
+.instagram-container {
+    display: flex;
+    color: #EA8FFA;
+    font-family: DM Sans;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 16px;
+    letter-spacing: 0em;
+    text-align: left;
+    gap: 10px;
+    align-items: center;
+}
+
+.pet-profile-table {
+    width: 100%;
+}
