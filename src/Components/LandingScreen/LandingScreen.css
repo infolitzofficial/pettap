@@ -1,0 +1,117 @@
+.landing-profile-container {
+    height: 100%;
+    overflow: hidden;
+    background-repeat: no-repeat;
+    background-size:contain;  
+    background-position: center;
+    width: 100vw;
+    position: relative;
+
+}
+
+.landingpage-button-container {
+    display: flex;
+    position: absolute;
+    bottom: 0%;
+    width: 100%;
+}
+
+.landingpage-button-subcontainer {
+    margin: auto;
+    display: flex;
+    width: 100%;
+}
+
+.landingpage-call-button-container, .landingpage-message-button-container {
+    width: 50%;
+    height: 6vh;
+    background-image: linear-gradient(#DD46F6, #7235FF);
+    color: #FFFFFF;
+    font-family: DM Sans;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 18px;
+    letter-spacing: 0em;
+    text-align: left;
+    display: flex;
+    cursor: pointer;
+}
+
+.landingpage-message-button-container {
+    border: none;
+}
+
+.landingpage-call-button-container {
+    border-left: none;
+    border-top: none;
+    border-bottom: none;
+    border-color: #FFFFFF;
+}
+
+.landingpage-call-button, .landingpage-call-button {
+    display: flex;
+    margin: auto;
+    gap: 10px;
+}
+
+.scroll-container {
+    display: flex;
+    position: absolute;
+    bottom: 10%;
+    font-family: DM Sans;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 16px;
+    letter-spacing: 0.04em;
+    color: #FFFFFF;
+    width: 100%;
+}
+
+.scroll-subcontainer {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.scroll-icon {
+    height: 100%;
+    width: 6%;
+    cursor: pointer;
+}
+
+.landing-page-pet-name {
+    font-family: Lobster Two;
+    font-size: 35px;
+    font-weight: 400;
+    line-height: 38px;
+    letter-spacing: 0.02em;
+    text-align: left;
+    color: #FFFFFF;
+    top: 5%;
+    position: absolute;
+    text-align: center;
+}
+
+.landing-page-title-section {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.pet-profile-section {
+    height: 100%;
+}
+
+@media screen and (max-width: 700px) {
+    .landing-profile-container {
+        background-size:cover;  
+    }
+}
+
+@media screen and (min-width: 701px) {
+    .scroll-icon {
+        height: 30%;
+    }
+}
