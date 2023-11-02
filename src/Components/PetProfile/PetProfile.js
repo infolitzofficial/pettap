@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import { CometChatUI } from "../../cometchat-pro-react-ui-kit/CometChatWorkspace/src/components";
+import { CometChatUI } from "../../comet-chat-react-ui-kit/CometChatWorkspace/src/components";
 
 // Assets
 import { MdOutlineMessage } from "react-icons/md";

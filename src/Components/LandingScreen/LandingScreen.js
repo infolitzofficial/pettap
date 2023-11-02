@@ -1,7 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 
-// import { CometChat } from "@cometchat-pro/chat";
-import { CometChatUI } from "../../cometchat-pro-react-ui-kit/CometChatWorkspace/src/components";
+import { CometChatUI } from "../../comet-chat-react-ui-kit/CometChatWorkspace/src/components";
 
 // components
 import PetProfile from "../PetProfile/PetProfile";
@@ -34,7 +33,7 @@ const LandingScreen = (props) => {
     const [errorMessage, setErrorMessage] = useState(false);
     const profileElement = useRef();
     const  { cometchatLogin, isLoggedIntoCometchat } = useCometchatLogin();
-    const petId = 11;
+    const petId = 16;
 
     useEffect(() => {
         const fetchData = async() => {
