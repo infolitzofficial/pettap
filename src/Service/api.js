@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const baseUrl = 'http://ec2-16-170-98-0.eu-north-1.compute.amazonaws.com:4001/api';
+const baseUrl = 'http://ec2-16-170-159-66.eu-north-1.compute.amazonaws.com:4001/api';
 
 // Get pet details
 export const getPetDetails = async (id) => {

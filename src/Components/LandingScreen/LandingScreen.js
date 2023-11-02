@@ -33,7 +33,7 @@ const LandingScreen = (props) => {
     const [errorMessage, setErrorMessage] = useState(false);
     const profileElement = useRef();
     const  { cometchatLogin, isLoggedIntoCometchat } = useCometchatLogin();
-    const petId = 11;
+    const petId = 16;
 
     useEffect(() => {
         const fetchData = async() => {
