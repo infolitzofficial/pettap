@@ -1,7 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 
-// import { CometChat } from "@cometchat-pro/chat";
-import { CometChatUI } from "../../cometchat-pro-react-ui-kit/CometChatWorkspace/src/components";
+import { CometChatUI } from "../../comet-chat-react-ui-kit/CometChatWorkspace/src/components";
 
 // components
 import PetProfile from "../PetProfile/PetProfile";
