@@ -24,7 +24,7 @@ import { useCometchatLogin } from "../../Hooks/useCometchatLogin";
 const LandingScreen = (props) => {
     const [messageButton, setMessageButton] = useState(false);
     const [callButton, setCallButton] = useState(false)
-    const [profilevisibility, setProfileVisibility] = useState(true);
+    const [profilevisibility, setProfileVisibility] = useState(false);
     const [homePageVisibility, setHomePageVisibility] = useState(true);
     const [petDetails, setpetDetails] = useState([]);
     const [loginModal, setLoginModal] = useState(false);
@@ -33,10 +33,18 @@ const LandingScreen = (props) => {
     const [errorMessage, setErrorMessage] = useState(false);
     const profileElement = useRef();
     const  { cometchatLogin, isLoggedIntoCometchat } = useCometchatLogin();
-    const petId = 1;
 
     useEffect(() => {
         const fetchData = async() => {
+            const currentUrl = window.location.href;
+            const urlObj = new URL(currentUrl);
+            const id = urlObj.searchParams.get("id");
+            let petId;
+            if(id != null) {
+                petId = id;
+            } else {
+                petId = 1;
+            }
             const response = await getPetDetails(petId);
             if(response.status === 200) {
                 setpetDetails(response?.data?.result)
@@ -67,19 +75,20 @@ const LandingScreen = (props) => {
 
     useEffect(() => {
         if(props.scrollValue === true && messageButton === false && callButton === false) {
-            handleClickOnScroll()
+            handleClickOnScroll();
         }
     },[props.scrollValue])
 
     const handleClickOnScroll = () => {
         profileElement.current?.scrollIntoView({behavior: 'smooth'});
         setHomePageVisibility(false);
+        setProfileVisibility(true);
     };
 
     const loadLandingScreen = () => {
         setMessageButton(false);
-        setProfileVisibility(true);
         setUserClickedButton(null);
+        setProfileVisibility(false);
     };
 
     const changeLoginModalStatus = () => {
@@ -133,31 +142,34 @@ const LandingScreen = (props) => {
                             <div className="landing-page-title-section">
                                 <div className="landing-page-pet-name">{petDetails.pet_name}</div>
                             </div>
-                            <div className="scroll-container">
-                                <div className="scroll-subcontainer">
-                                    <AiOutlineDownCircle className="scroll-icon" onClick={() => handleClickOnScroll()}/>
-                                    <div className="scroll-text">SCROLL DOWN</div>
+                            <div className="buttons">
+                                <div className="scroll-container">
+                                    <div className="scroll-subcontainer">
+                                        <AiOutlineDownCircle className="scroll-icon" onClick={() => handleClickOnScroll()}/>
+                                        <div className="scroll-text">SCROLL DOWN</div>
+                                    </div>
                                 </div>
-                            </div>
-                            <div className="landingpage-button-container">
-                                <div className="landingpage-button-subcontainer">
-                                    <button className="landingpage-call-button-container">
-                                        <div className="landingpage-call-button">
-                                            <IoCallOutline />
-                                            <div className="landingpage-call-button-text">Call Owner</div>
-                                        </div>
-                                    </button>
-                                    <button className="landingpage-message-button-container" onClick={() => { initialiseLogin("Message");}}>
-                                        <div className="landingpage-call-button">
-                                            <MdOutlineMessage />
-                                            <div>Message</div>
-                                        </div>
-                                    </button>
+                                <div className="landingpage-button-container">
+                                    <div className="landingpage-button-subcontainer">
+                                        <button className="landingpage-call-button-container">
+                                            <div className="landingpage-call-button">
+                                                <IoCallOutline />
+                                                <div className="landingpage-call-button-text">Call Owner</div>
+                                            </div>
+                                        </button>
+                                        <button className="landingpage-message-button-container" onClick={() => { initialiseLogin("Message");}}>
+                                            <div className="landingpage-call-button">
+                                                <MdOutlineMessage />
+                                                <div>Message</div>
+                                            </div>
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                             {loginModal === true ? (
                                 <LoginForm modalActivationCall={changeLoginModalStatus} login={loginToTappet} error={errorMessage}/>
                             ) : null}
+                            <div className="scroll-visibility"/>
                         </div>
                     ) : (
                         <CometChatUI homePage={loadLandingScreen} clickedCall={callButton} petDetails={petDetails} userConversationID={userConversationId}/>

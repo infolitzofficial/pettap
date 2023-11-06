@@ -82,6 +82,13 @@
     border-radius: 4px;
 }
 
+.owner-image {
+    width: 12%;
+    background-repeat: no-repeat;
+    background-size:contain;  
+    background-position: center;
+}
+
 .owner-details {
     display: flex;
     margin: 10px;
