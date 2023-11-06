@@ -30,7 +30,6 @@ export const useCometchatLogin = () => {
     }
 
     const loginTOCometChat = (conversationId) => {
-        console.log(conversationId)
         CometChat.login(conversationId, authKey).then(
             user => {
                 console.log("user loggedin successfully", {user})

@@ -132,7 +132,7 @@ const PetProfile = (props) => {
                             </div>
                             <div className="owner-details-container">
                                 <div className="owner-details">
-                                    <img src={data?.added_by?.u_image} alt="Loading.."></img>
+                                    <img className="owner-image" src={data?.added_by?.u_image} alt="Loading.."></img>
                                     <div className="owner-data">
                                         <div className="owner-name1">{data?.added_by?.u_first_name} {data?.added_by?.u_last_name}</div>
                                         <div className="owner-name2">{data?.pet_name}'s Owner</div>
