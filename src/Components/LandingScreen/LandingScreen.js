@@ -36,12 +36,14 @@ const LandingScreen = (props) => {
 
     useEffect(() => {
         const fetchData = async() => {
-            const currentUrl = window.location.href;
-            const urlObj = new URL(currentUrl);
-            const id = urlObj.searchParams.get("id");
+            const currentURL = window.location.href;
+            const urlParts = currentURL.split('/');
+            const lastValueInURL = urlParts[urlParts.length - 1];
+            const specialCharsRegex = /[A-Za-z,.:!@]\d$/;
+            const value = specialCharsRegex.test(lastValueInURL);
             let petId;
-            if(id != null) {
-                petId = id;
+            if(value === false && lastValueInURL !== '') {
+                petId = lastValueInURL;
             } else {
                 petId = 1;
             }

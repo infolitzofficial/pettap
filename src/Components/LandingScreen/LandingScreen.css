@@ -125,3 +125,10 @@
         height: 30%;
     }
 }
+
+@media screen and (min-width: 701px) and (max-width: 2500px) {
+    .landing-profile-container {
+        width: 50vw;
+        background-size: cover;
+    }
+}
