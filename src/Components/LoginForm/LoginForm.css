@@ -9,14 +9,11 @@
   background-color: rgba(0,0,0,0.6);
   z-index: 2;
   cursor: pointer;
-        /* marginRight: '-50%',
-      transform: 'translate(-50%, -50%)', */ 
 }
 
 .form {
   position: absolute;
   inset: 50% auto auto 50%;
-  /* border: 1px solid rgb(204, 204, 204); */
   background: rgb(255, 255, 255);
   overflow: auto;
   border-radius: 4px;
@@ -24,7 +21,6 @@
   padding: 20px;
   margin-right: -50%;
   transform: translate(-50%, -50%);
-
   height: 25%;
   width: 80%;
   display: flex;
@@ -71,8 +67,20 @@ textarea:focus, input:focus{
   border: none;
   border-radius: 7px;
   color: rgb(104, 103, 103);
+  cursor: pointer;
 }
 
 .error-message {
   color: red;
+}
+
+@media screen and (min-width: 701px) and (max-width: 2500px) {
+  #overlay {
+    width: 50%;
+    margin: auto;
+  }
+
+  .form {
+    width: 60%;
+  }
 }
