@@ -189,7 +189,7 @@ const PetProfile = (props) => {
                                 <div className="gallery-section">
                                     {galleryImages.map((image,index) => {
                                         return (
-                                            <div className="gallery-section1">
+                                            <div className="gallery-section1" key={index}>
                                                 {allImageVisibility === true ? (
                                                     <>
                                                         <div className="gallery-section-colum1">

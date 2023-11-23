@@ -31,6 +31,8 @@ const LandingScreen = (props) => {
     const [userConversationId, setUserConversationId] = useState(null);
     const [userClickedButton, setUserClickedButton] = useState(null);
     const [errorMessage, setErrorMessage] = useState(false);
+    const [isPetAvailable, setIsPetAvailable] = useState(false);
+    const [isPetDetailsLoaded, setIsPetDetailsLoaded] = useState(false);
     const profileElement = useRef();
     const  { cometchatLogin, isLoggedIntoCometchat } = useCometchatLogin();
 
@@ -39,17 +41,24 @@ const LandingScreen = (props) => {
             const currentURL = window.location.href;
             const urlParts = currentURL.split('/');
             const lastValueInURL = urlParts[urlParts.length - 1];
-            const specialCharsRegex = /[A-Za-z,.:!@]\d$/;
+            const specialCharsRegex = /^[0-9]+$/;
             const value = specialCharsRegex.test(lastValueInURL);
             let petId;
-            if(value === false && lastValueInURL !== '') {
+            if(value === true && lastValueInURL !== '') {
                 petId = lastValueInURL;
             } else {
-                petId = 1;
+                setIsPetAvailable(false);
             }
             const response = await getPetDetails(petId);
-            if(response.status === 200) {
-                setpetDetails(response?.data?.result)
+            if(response?.status === 200) {
+                if(Object.keys(response?.data?.result).length != 0) {
+                    setpetDetails(response?.data?.result);
+                    setIsPetDetailsLoaded(true);
+                    setIsPetAvailable(true);
+                } else {
+                    setIsPetAvailable(false);
+                    setIsPetDetailsLoaded(true);
+                }
             }
             let userData = JSON.parse(localStorage.getItem("user"));
             if(userData?.conversationID && userData.name) {
@@ -135,7 +144,7 @@ const LandingScreen = (props) => {
         }
     }
 
-    return (
+    return isPetAvailable  && petDetails? (
         <>
             {homePageVisibility === true ? (
                 <>
@@ -174,7 +183,9 @@ const LandingScreen = (props) => {
                             <div className="scroll-visibility"/>
                         </div>
                     ) : (
-                        <CometChatUI homePage={loadLandingScreen} clickedCall={callButton} petDetails={petDetails} userConversationID={userConversationId}/>
+                        <div className="cometchat-container">
+                            <CometChatUI homePage={loadLandingScreen} clickedCall={callButton} petDetails={petDetails} userConversationID={userConversationId}/>
+                        </div>
                     )}
                 </>
             ):null}
@@ -188,6 +199,17 @@ const LandingScreen = (props) => {
                 </>
             ) : null}
         </>
+    ) : (
+        <>
+            {isPetDetailsLoaded === false ? (
+                null
+            ) : (
+                <div className="pet-error-container">
+                    <p className="pet-error-text">This pet is not registered!</p>
+                </div>
+            )}
+        </> 
+
     )
 }
 
