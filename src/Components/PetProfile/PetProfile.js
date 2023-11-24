@@ -10,7 +10,7 @@ import { AiOutlineArrowRight } from "react-icons/ai";
 import { FaInstagramSquare } from "react-icons/fa";
 import incomingCall from "../../Assets/audio/incomingcall.wav";
 
-//Service
+// Service
 import { loginToTappetApp } from "../../Service/api.js";
 
 // Style
@@ -22,7 +22,7 @@ import LoginForm from "../LoginForm/LoginForm";
 // Hooks
 import { useCometchatLogin } from "../../Hooks/useCometchatLogin";
 
-//Utils
+// Utils
 import {initialiseZegocloud} from "../../Utils/zegocloudUtils.js";
 
 const PetProfile = (props) => {
