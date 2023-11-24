@@ -7,7 +7,7 @@ import { ZegoUIKitPrebuilt } from '@zegocloud/zego-uikit-prebuilt';
 import PetProfile from "../PetProfile/PetProfile";
 import LoginForm from "../LoginForm/LoginForm";
 
-//Service
+// Service
 import { getPetDetails } from "../../Service/api.js";
 import { loginToTappetApp } from "../../Service/api.js";
 
@@ -17,13 +17,13 @@ import { MdOutlineMessage } from "react-icons/md";
 import { IoCallOutline } from "react-icons/io5";
 import incomingCall from "../../Assets/audio/incomingcall.wav";
 
-//style
+// style
 import "../LandingScreen/LandingScreen.css";
 
 // Hooks
 import { useCometchatLogin } from "../../Hooks/useCometchatLogin";
 
-//Utils
+// Utils
 import {initialiseZegocloud} from "../../Utils/zegocloudUtils.js";
 
 const LandingScreen = (props) => {
