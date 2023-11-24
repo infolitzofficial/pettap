@@ -8,7 +8,7 @@ import { MdOutlineMessage } from "react-icons/md";
 import { IoCallOutline } from "react-icons/io5";
 import { AiOutlineArrowRight } from "react-icons/ai";
 import { FaInstagramSquare } from "react-icons/fa";
-import incomingCall from "../../Assets/audio/incomingcall.wav";
+import incomingCall from "../../Assets/audio/incomingCall.wav";
 
 // Service
 import { loginToTappetApp } from "../../Service/api.js";
