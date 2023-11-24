@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 
 import { CometChatUI } from "../../comet-chat-react-ui-kit/CometChatWorkspace/src/components";
+import { ZegoUIKitPrebuilt } from '@zegocloud/zego-uikit-prebuilt';
 
 // Assets
 import { MdOutlineMessage } from "react-icons/md";
 import { IoCallOutline } from "react-icons/io5";
 import { AiOutlineArrowRight } from "react-icons/ai";
 import { FaInstagramSquare } from "react-icons/fa";
+import incomingCall from "../../Assets/audio/incomingcall.wav";
 
 //Service
 import { loginToTappetApp } from "../../Service/api.js";
@@ -19,6 +21,9 @@ import LoginForm from "../LoginForm/LoginForm";
 
 // Hooks
 import { useCometchatLogin } from "../../Hooks/useCometchatLogin";
+
+//Utils
+import {initialiseZegocloud} from "../../Utils/zegocloudUtils.js";
 
 const PetProfile = (props) => {
     const [profilePageMessageButton, setProfilePageMessageButton] = useState(false);
@@ -56,12 +61,40 @@ const PetProfile = (props) => {
         }
     },[isLoggedIntoCometchat])
 
+    useEffect(() => {
+        let userData = JSON.parse(localStorage.getItem("user"));
+        let zp;
+        if(userData?.zegoID) {
+            userData.ZegoTokenCreatedTime = new Date(userData.ZegoTokenCreatedTime)
+            const tokenExpirationTime = userData.ZegoTokenCreatedTime.getTime() + userData.zegoTokenDuration * 1000;
+            const currentTime = new Date().getTime();
+            if (currentTime > tokenExpirationTime) {
+                console.log('Token has expired');
+                setUserConversationId(null);
+            } else {
+                if(userData?.cometchatID && userData.name) {
+                    setUserConversationId(userData.cometchatID);
+                    let userName = userData.name;
+                    let userId = userData.cometchatID;
+                    cometchatLogin(userId, userName);
+                }
+                zp = initialiseZegocloud(userData?.zegoID, userData?.name, userData?.zegotoken) 
+                if(userClickedButton === "Call" ) {
+                    setTimeout(() => {
+                        handleSendCallInvitation(ZegoUIKitPrebuilt.InvitationTypeVoiceCall, zp);
+                    },1000)
+                }
+            }
+        } 
+    },[userClickedButton])
+
     const galleryImages = galleryImagesArr(data?.images, 3);
 
     const loadProfileScreen = () => {
         setProfilePageMessageButton(false);
     };
 
+    // Method to initialise tappet login
     const initialiseLoginFromProfilePage = (userAction) => {  
         setUserClickedButton(userAction) 
         if(userConversationId === null) {
@@ -83,18 +116,33 @@ const PetProfile = (props) => {
         setUserClickedButton(null);
     }
     
-    const loginTappetFromeProfilePage = async(userData) => {
+    //method to login to cometchat and zegocloud
+    const loginTappetFromProfilePage = async(userData) => {
         const loginResponse = await loginToTappetApp(userData);
+        const tokenCreatedTime = new Date();
         if(loginResponse.status === 200 && loginResponse.data.result.u_id) {
+            let zegoID = `zegouser_${loginResponse.data.result.u_id}`;
+            let userName = loginResponse?.data?.result?.u_first_name;
+            let tokenExpiryTime = loginResponse?.data?.result?.zego_token_expiry;
+            const token = loginResponse?.data?.result?.zego_token;
+            const zp = initialiseZegocloud(zegoID, userName, token);
             let cometchatID = `comechatUser_${loginResponse.data.result.u_id}`;
             const data = {
-                "conversationID": cometchatID,
-                "name": loginResponse.data.result.u_first_name,
+                "cometchatID": cometchatID,
+                "zegoID": zegoID,
+                "name": userName,
+                "zegotoken": token,
+                "zegoTokenDuration": tokenExpiryTime,
+                "ZegoTokenCreatedTime": tokenCreatedTime
             }
             localStorage.setItem("user", JSON.stringify(data));
             setLoginModal(false);
             setUserConversationId(cometchatID);
-            let userName = loginResponse?.data?.result?.u_first_name;
+            if(userClickedButton === "Call") {
+                setTimeout(() => {
+                    handleSendCallInvitation(ZegoUIKitPrebuilt.InvitationTypeVoiceCall, zp);
+                },1000)
+            }
             let userId = cometchatID;
             cometchatLogin(userId, userName);
         } else {
@@ -102,9 +150,51 @@ const PetProfile = (props) => {
         }
     }
 
+    // Method to send call invitation while clicking call button
+    const handleSendCallInvitation = (callType, zp) => {
+        const callee = `zegouser_${props.petDetails.added_by.u_id}`;
+        if (!callee) {
+            alert('userID cannot be empty!!');
+            return;
+        }
+        const users = callee.split(',').map((id) => ({
+            userID: id.trim(),
+            userName: props.petDetails.added_by?.u_first_name,
+        }));
+
+        zp.setCallInvitationConfig({
+            ringtoneConfig: {
+                incomingCallUrl: incomingCall,
+                outgoingCallUrl: incomingCall,
+            },
+        });
+
+        // send call invitation
+        zp.sendCallInvitation({
+            callees: users,
+            callType: callType,
+            timeout: 60,
+        })
+        .then((res) => {
+            console.warn(res);
+            if (res.errorInvitees.length) {
+            alert('The user dose not exist or is offline.');
+            }
+        })
+        .catch((err) => {
+            console.error(err);
+        });  
+        zp.setCallInvitationConfig({
+            // The callback for the call invitation ends (this will be triggered when the call invitation is refused/timed out/canceled/ended due to busy status.)
+            onCallInvitationEnded: (reason,data) =>{
+                setUserClickedButton(null);
+            }
+        })  
+    }
+
     return (
         <>
-            {![profilePageMessageButton, profilePageCallButton].some(e=>e) ? (
+            {![profilePageMessageButton].some(e=>e) ? (
                 <div className="pet-profile-container">
                     <div className="pet-profile-subcontainer">
                         <div className="title-section">
@@ -116,7 +206,7 @@ const PetProfile = (props) => {
                         <div className="owner-section">
                             <div className="button-container">
                                 <div className="button-subcontainer">
-                                    <button className="call-button-container" >
+                                    <button className="call-button-container" onClick={() => {initialiseLoginFromProfilePage("Call");}}>
                                         <div className="call-button">
                                             <IoCallOutline />
                                             <div className="call-button-text">Call Owner</div>
@@ -247,7 +337,7 @@ const PetProfile = (props) => {
                         </div>
                     </div>
                     {loginModal === true ? (
-                        <LoginForm modalActivationCall={changeLoginModalStatusInProfilePage} login={loginTappetFromeProfilePage} error={errorMessage}/>
+                        <LoginForm modalActivationCall={changeLoginModalStatusInProfilePage} login={loginTappetFromProfilePage} error={errorMessage}/>
                     ) : null}
                 </div>
             ) : (

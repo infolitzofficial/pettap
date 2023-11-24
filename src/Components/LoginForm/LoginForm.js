@@ -1,10 +1,16 @@
 import { useState } from "react";
 import "../LoginForm/LoginForm.css";
 
+import zegoCloudcredentials from "../..//zegocloud_credentials.json";
+
 const LoginForm = (props) => {
+    const appID = zegoCloudcredentials.appID;
+    const serverSecret = zegoCloudcredentials.serverSecret;
     const [userDetails, setUserDetails] = useState({
         "name" : null,
-        "email": null
+        "email": null,
+        "server_secret": serverSecret,
+        "app_id": appID,
     })
     const onFormDataChange = (updatedField, newValue) => {
         setUserDetails({...userDetails, [updatedField]: newValue})
