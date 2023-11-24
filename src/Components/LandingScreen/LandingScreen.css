@@ -6,7 +6,10 @@
     background-position: center;
     width: 100vw;
     position: fixed;
+}
 
+.cometchat-container {
+    width: 100vw;
 }
 
 .landing-profile-container>.buttons {
@@ -108,10 +111,28 @@
 
 .pet-profile-section {
     height: 100%;
+    width: 100%;
 }
 
 .scroll-visibility {
     height: 100px;
+}
+
+.pet-error-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    background-color: #0C0024;
+}
+
+.pet-error-text {
+    font-size: 23px;
+    font-weight: 100;
+    color: white;
+    font-family: Lobster Two;
+    padding-left: 15px;
+    padding-right: 15px;
 }
 
 @media screen and (max-width: 700px) {
@@ -130,5 +151,17 @@
     .landing-profile-container {
         width: 50vw;
         background-size: cover;
+    }
+
+    .cometchat-container {
+        width: 50vw;
+    }
+
+    .pet-profile-section {
+        width: 50%;
+    }
+
+    .pet-error-container { 
+        width: 50%;
     }
 }
