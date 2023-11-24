@@ -2,7 +2,7 @@ import { ZIM } from "zego-zim-web";
 import { ZegoUIKitPrebuilt } from '@zegocloud/zego-uikit-prebuilt';
 
 // Assets
-import incomingCall from "../Assets/audio/incomingcall.wav";
+import incomingCall from "../Assets/audio/incomingCall.wav";
 import zegoCloudcredentials from "../zegocloud_credentials.json";
 
 const appID = zegoCloudcredentials.appID;

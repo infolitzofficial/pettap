@@ -15,7 +15,7 @@ import { loginToTappetApp } from "../../Service/api.js";
 import { AiOutlineDownCircle } from "react-icons/ai";
 import { MdOutlineMessage } from "react-icons/md";
 import { IoCallOutline } from "react-icons/io5";
-import incomingCall from "../../Assets/audio/incomingcall.wav";
+import incomingCall from "../../Assets/audio/incomingCall.wav";
 
 // style
 import "../LandingScreen/LandingScreen.css";
