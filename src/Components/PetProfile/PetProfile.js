@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 import { CometChatUI } from "../../comet-chat-react-ui-kit/CometChatWorkspace/src/components";
 import { ZegoUIKitPrebuilt } from '@zegocloud/zego-uikit-prebuilt';
@@ -9,6 +9,7 @@ import { IoCallOutline } from "react-icons/io5";
 import { AiOutlineArrowRight } from "react-icons/ai";
 import { FaInstagramSquare } from "react-icons/fa";
 import incomingCall from "../../Assets/audio/incomingCall.wav";
+import outgoingCall from "../../Assets/audio/outgoingCall.wav";
 
 // Service
 import { loginToTappetApp } from "../../Service/api.js";
@@ -33,6 +34,8 @@ const PetProfile = (props) => {
     const [userConversationId, setUserConversationId] = useState(null);
     const [userClickedButton, setUserClickedButton] = useState(null);
     const [errorMessage, setErrorMessage] = useState(false);
+    const audioRef = useRef();
+    const [callType, setCallType] = useState(null);
     const data = props.petDetails;
     const  { cometchatLogin, isLoggedIntoCometchat } = useCometchatLogin();
 
@@ -78,7 +81,7 @@ const PetProfile = (props) => {
                     let userId = userData.cometchatID;
                     cometchatLogin(userId, userName);
                 }
-                zp = initialiseZegocloud(userData?.zegoID, userData?.name, userData?.zegotoken) 
+                zp = initialiseZegocloud(userData?.zegoID, userData?.name, userData?.zegotoken, playAudioForIncomingCall, endCallRinging) 
                 if(userClickedButton === "Call" ) {
                     setTimeout(() => {
                         handleSendCallInvitation(ZegoUIKitPrebuilt.InvitationTypeVoiceCall, zp);
@@ -125,7 +128,7 @@ const PetProfile = (props) => {
             let userName = loginResponse?.data?.result?.u_first_name;
             let tokenExpiryTime = loginResponse?.data?.result?.zego_token_expiry;
             const token = loginResponse?.data?.result?.zego_token;
-            const zp = initialiseZegocloud(zegoID, userName, token);
+            const zp = initialiseZegocloud(zegoID, userName, token, endCallRinging);
             let cometchatID = `comechatUser_${loginResponse.data.result.u_id}`;
             const data = {
                 "cometchatID": cometchatID,
@@ -152,6 +155,8 @@ const PetProfile = (props) => {
 
     // Method to send call invitation while clicking call button
     const handleSendCallInvitation = (callType, zp) => {
+        setCallType('Outgoing');
+        audioRef.current.play();
         const callee = `zegouser_${props.petDetails.added_by.u_id}`;
         if (!callee) {
             alert('userID cannot be empty!!');
@@ -185,11 +190,27 @@ const PetProfile = (props) => {
             console.error(err);
         });  
         zp.setCallInvitationConfig({
-            // The callback for the call invitation ends (this will be triggered when the call invitation is refused/timed out/canceled/ended due to busy status.)
             onCallInvitationEnded: (reason,data) =>{
                 setUserClickedButton(null);
+                endCallRinging();
+                setCallType(null);
             }
         })  
+    }
+
+    const handleAudioEnded = () => {
+        // Restart the audio when it ends
+        audioRef.current.currentTime = 0;
+        audioRef.current.play();
+    };
+    
+    const endCallRinging = () => {
+        audioRef.current.pause();
+    }
+
+    const playAudioForIncomingCall = () => {
+        setCallType("Incoming")
+        audioRef.current.play();
     }
 
     return (
@@ -266,6 +287,7 @@ const PetProfile = (props) => {
                                 </div>
                                 <hr className="line"></hr>
                             </div>
+                            <audio ref={audioRef} src= {callType=== 'Incoming' ? incomingCall : callType === 'Outgoing' ? outgoingCall : null} onEnded={handleAudioEnded}/>
                         </div>
                         <div className="gallery-container">
                             <div className="gallery-titles">
