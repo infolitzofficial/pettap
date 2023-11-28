@@ -16,6 +16,7 @@ import { AiOutlineDownCircle } from "react-icons/ai";
 import { MdOutlineMessage } from "react-icons/md";
 import { IoCallOutline } from "react-icons/io5";
 import incomingCall from "../../Assets/audio/incomingCall.wav";
+import outgoingCall from "../../Assets/audio/outgoingCall.wav";
 
 // style
 import "../LandingScreen/LandingScreen.css";
@@ -38,12 +39,15 @@ const LandingScreen = (props) => {
     const [errorMessage, setErrorMessage] = useState(false);
     const [isPetAvailable, setIsPetAvailable] = useState(false);
     const [isPetDetailsLoaded, setIsPetDetailsLoaded] = useState(false);
+    const [callType, setCallType] = useState(null);
     const profileElement = useRef();
+    const audioRef = useRef();
     const  { cometchatLogin, isLoggedIntoCometchat } = useCometchatLogin();
 
     useEffect(() => {
         const fetchData = async() => {
-            const currentURL = window.location.href;
+            // const currentURL = window.location.href;
+            const currentURL = 'http://localhost:3000/1'
             const urlParts = currentURL.split('/');
             const lastValueInURL = urlParts[urlParts.length - 1];
             const specialCharsRegex = /^[0-9]+$/;
@@ -86,7 +90,7 @@ const LandingScreen = (props) => {
                     let userId = userData.cometchatID;
                     cometchatLogin(userId, userName);
                 }
-                zp = initialiseZegocloud(userData?.zegoID, userData?.name, userData?.zegotoken) 
+                zp = initialiseZegocloud(userData?.zegoID, userData?.name, userData?.zegotoken, playAudioForIncomingCall, endCallRinging) 
                 if(userClickedButton === "Call" ) {
                     setTimeout(() => {
                         handleSendCallInvitation(ZegoUIKitPrebuilt.InvitationTypeVoiceCall, zp);
@@ -160,7 +164,7 @@ const LandingScreen = (props) => {
             let userName = loginResponse?.data?.result?.u_first_name;
             let tokenExpiryTime = loginResponse?.data?.result?.zego_token_expiry;
             const token = loginResponse?.data?.result?.zego_token;
-            const zp = initialiseZegocloud(zegoID, userName, token);
+            const zp = initialiseZegocloud(zegoID, userName, token, endCallRinging);
             let cometchatID = `comechatuser_${loginResponse.data.result.u_id}`
             const data = {
                 "cometchatID": cometchatID,
@@ -187,6 +191,8 @@ const LandingScreen = (props) => {
 
     // Method to send call invitation while clicking call button
     const handleSendCallInvitation = (callType, zp) => {
+        setCallType('Outgoing');
+        audioRef.current.play();
         const callee = `zegouser_${petDetails.added_by.u_id}`;
         if (!callee) {
             alert('userID cannot be empty!!');
@@ -222,8 +228,24 @@ const LandingScreen = (props) => {
         zp.setCallInvitationConfig({
             onCallInvitationEnded: (reason,data) =>{
                 setUserClickedButton(null);
+                endCallRinging();
+                setCallType(null);
             },  
         })          
+    }
+
+    const handleAudioEnded = () => {
+        audioRef.current.currentTime = 0;
+        audioRef.current.play();
+    };
+    
+    const endCallRinging = () => {
+        audioRef.current.pause();
+    }
+
+    const playAudioForIncomingCall = () => {
+        setCallType("Incoming")
+        audioRef.current.play();
     }
 
     return isPetAvailable  && petDetails? (
@@ -231,7 +253,7 @@ const LandingScreen = (props) => {
             {homePageVisibility === true ? (
                 <>
                     {![messageButton].some(e=>e) ? (
-                        <div className="landing-profile-container" onScroll={() => handleClickOnScroll()} style={{backgroundImage: `url(${petDetails.pet_image})`}}>
+                        <div className="landing-profile-container" onMouseEnter={() => {}} onScroll={() => handleClickOnScroll()} style={{backgroundImage: `url(${petDetails.pet_image})`}}>
                             <div className="landing-page-title-section">
                                 <div className="landing-page-pet-name">{petDetails.pet_name}</div>
                             </div>
@@ -258,6 +280,7 @@ const LandingScreen = (props) => {
                                         </button>
                                     </div>
                                 </div>
+                                <audio ref={audioRef}  src= {callType=== 'Incoming' ? incomingCall : callType === 'Outgoing' ? outgoingCall : null} onEnded={handleAudioEnded}/>
                             </div>
                             {loginModal === true ? (
                                 <LoginForm modalActivationCall={changeLoginModalStatus} login={loginToTappet} error={errorMessage}/>
