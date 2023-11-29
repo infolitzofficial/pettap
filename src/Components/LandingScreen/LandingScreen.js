@@ -46,8 +46,7 @@ const LandingScreen = (props) => {
 
     useEffect(() => {
         const fetchData = async() => {
-            // const currentURL = window.location.href;
-            const currentURL = 'http://localhost:3000/1'
+            const currentURL = window.location.href;
             const urlParts = currentURL.split('/');
             const lastValueInURL = urlParts[urlParts.length - 1];
             const specialCharsRegex = /^[0-9]+$/;

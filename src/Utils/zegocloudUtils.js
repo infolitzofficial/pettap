@@ -37,7 +37,6 @@ const initialiseZegocloud = (userID, userName, token, playAudioForIncomingCall, 
             }
         },
         onIncomingCallReceived: (callID, caller, callType, callees) => {
-            console.log('----------------------')
             playAudioForIncomingCall();
         },
         onIncomingCallCanceled: (callID, caller) => {endCallRinging()},
