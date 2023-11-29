@@ -167,13 +167,6 @@ const PetProfile = (props) => {
             userName: props.petDetails.added_by?.u_first_name,
         }));
 
-        zp.setCallInvitationConfig({
-            ringtoneConfig: {
-                incomingCallUrl: incomingCall,
-                outgoingCallUrl: incomingCall,
-            },
-        });
-
         // send call invitation
         zp.sendCallInvitation({
             callees: users,
