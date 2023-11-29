@@ -203,13 +203,6 @@ const LandingScreen = (props) => {
             userName: petDetails.added_by?.u_first_name,
         }));
 
-        zp.setCallInvitationConfig({
-            ringtoneConfig: {
-                incomingCallUrl: incomingCall,
-                outgoingCallUrl: incomingCall,
-            },
-        });
-
         // send call invitation
         zp.sendCallInvitation({
             callees: users,

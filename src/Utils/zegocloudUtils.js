@@ -21,15 +21,6 @@ const initialiseZegocloud = (userID, userName, token, playAudioForIncomingCall, 
     zp.addPlugins({ ZIM });
 
     zp.setCallInvitationConfig({
-        ringtoneConfig: {
-            incomingCallUrl: incomingCall, 
-            outgoingCallUrl: incomingCall, 
-        },
-        onIncomingCallTimeout: (callID, caller) => {
-        },  
-    });
-
-    zp.setCallInvitationConfig({
         // The callback for the call invitation is accepted before joining the room (a room is used for making a call)
         onSetRoomConfigBeforeJoining: (callType) => {
             return {
