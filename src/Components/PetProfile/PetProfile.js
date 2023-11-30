@@ -128,7 +128,7 @@ const PetProfile = (props) => {
             let userName = loginResponse?.data?.result?.u_first_name;
             let tokenExpiryTime = loginResponse?.data?.result?.zego_token_expiry;
             const token = loginResponse?.data?.result?.zego_token;
-            const zp = initialiseZegocloud(zegoID, userName, token, endCallRinging);
+            const zp = initialiseZegocloud(zegoID, userName, token, playAudioForIncomingCall, endCallRinging);
             let cometchatID = `comechatUser_${loginResponse.data.result.u_id}`;
             const data = {
                 "cometchatID": cometchatID,
